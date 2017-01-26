@@ -332,7 +332,10 @@ public class AddressBook {
         } catch (InvalidPathException ipe) {
             return false;
         }
-        return hasValidParentDirectory(filePathToValidate) && hasValidFileName(filePathToValidate);
+        Path parentDirectory = filePathToValidate.getParent();
+        return (parentDirectory == null || Files.isDirectory(parentDirectory)) && 
+        		(filePathToValidate.getFileName().toString().lastIndexOf('.') > 0
+                && (!Files.exists(filePathToValidate) || Files.isRegularFile(filePathToValidate)));
     }
 
     /**
